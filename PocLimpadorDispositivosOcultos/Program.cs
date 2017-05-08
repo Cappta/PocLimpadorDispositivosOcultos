@@ -30,6 +30,17 @@ namespace PocLimpadorDispositivosOcultos
 			var allDevices = ObtainAllDevicesWithRegisteredPorts(deviceClass).ToArray();
 			var disconnectedDevices = allDevices.Where(device => activeDevices.Contains(device) == false).ToArray();
 
+			if (disconnectedDevices.Length > 0)
+			{
+				Console.WriteLine($"{disconnectedDevices.Length} dispositivos de um total de {allDevices.Length} serão removidos, restando apenas {activeDevices.Length} dispositivos na classe {deviceClass}");
+				Console.WriteLine($"Digite Sim para confirmar a execução:");
+
+				stopwatch.Stop();
+				var confirmation = Console.ReadLine();
+				if (confirmation.Equals("Sim", StringComparison.OrdinalIgnoreCase) == false) { return; }
+				stopwatch.Start();
+			}
+
 			var successfullyRemovedDevicesCount = default(int);
 			foreach (var device in disconnectedDevices)
 			{
